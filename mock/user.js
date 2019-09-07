@@ -29,7 +29,7 @@ export default [
     url: '/user/login',
     type: 'post',
     response: config => {
-      const { username } = config.body
+      const { username } = config.body //取其中的 username 字段出来
       const token = tokens[username]
 
       // mock error

@@ -142,11 +142,11 @@ export const asyncRoutes = [
     },
     children: [
       {
-        path: 'page',
+        path: 'page_666',
         component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
+        name: 'PagePermission 666-2',
         meta: {
-          title: 'Page Permission',
+          title: 'Page Permission 666-1',
           roles: ['admin'] // or you can only set roles in sub nav
         }
       },
@@ -160,11 +160,12 @@ export const asyncRoutes = [
         }
       },
       {
-        path: 'role',
+        path: 'role_666',
         component: () => import('@/views/permission/role'),
         name: 'RolePermission',
         meta: {
           title: 'Role Permission',
+          breadcrumb: false,
           roles: ['admin']
         }
       }
@@ -367,7 +368,7 @@ export const asyncRoutes = [
         path: 'index',
         component: () => import('@/views/clipboard/index'),
         name: 'ClipboardDemo',
-        meta: { title: 'Clipboard', icon: 'clipboard' }
+        meta: { title: 'Clipboard 666', icon: 'clipboard' }
       }
     ]
   },
@@ -378,7 +379,7 @@ export const asyncRoutes = [
     children: [
       {
         path: 'https://github.com/PanJiaChen/vue-element-admin',
-        meta: { title: 'External Link', icon: 'link' }
+        meta: { title: 'External Link 666', icon: 'link' }
       }
     ]
   },

@@ -162,6 +162,19 @@ export default {
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
+        const b = true;
+        if (b) { // TODO: 测试协议
+            console.log("--- handleLogin");
+           this.$store.dispatch('user/mytestpb', this.loginForm)
+            .then(() => {
+              this.loading = false
+            })
+            .catch(() => {
+              this.loading = false
+            })
+          return;
+        }
+
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm)

@@ -8,6 +8,8 @@ export function getRoutes() {
 }
 
 export function getRoles() {
+  console.log("--- getRoles");
+
   return request({
     url: '/roles',
     method: 'get'
