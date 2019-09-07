@@ -1,7 +1,7 @@
 import protoRoot from '@/proto/proto'
 import protobuf from 'protobufjs'
-
 import axios from 'axios'
+
 const httpService = axios.create({
     timeout: 45000,
     method: 'post',
@@ -12,9 +12,7 @@ const httpService = axios.create({
     responseType: 'arraybuffer'
 })
 
-// 请求体message
 const PBMessageRequest = protoRoot.lookup('goprotobuf.PBMessageRequest')
-// 响应体的message
 const PBMessageResponse = protoRoot.lookup('goprotobuf.PBMessageResponse')
 
 const apiVersion = '1.0.0'
@@ -26,11 +24,6 @@ function getMessageTypeValue(msgType) {
     return ret
 }
 
-/**
- * @param {*} msgType 接口名称
- * @param {*} requestBody 请求体参数
- * @param {*} responseType 返回值
- */
 function request(msgType, requestBody, responseType) {
     // 得到api的枚举值
     const _msgType = getMessageTypeValue(msgType)
@@ -61,8 +54,8 @@ function request(msgType, requestBody, responseType) {
         } else {
             console.log("--- aaa");
             console.log(data)
+            return data.messageData
         }
-        return data.messageData
     }, (err) => {
         throw err
     })
@@ -98,11 +91,10 @@ function transformResponseFactory(responseType) {
     }
 }
 
-// 在request下添加一个方法，方便用于处理请求参数
+// 将请求数据打包成流
 request.create = function(protoName, obj) {
     const pbConstruct = protoRoot.lookup(protoName)
     return pbConstruct.encode(obj).finish()
 }
 
-// 将模块暴露出去
 export default request
