@@ -57,7 +57,7 @@ export default {
   methods: {
     getUser() {
       this.user = {
-        name: this.name,
+        name: this.name + " - 要上天",
         role: this.roles.join(' | '),
         email: 'admin@test.com',
         avatar: this.avatar

@@ -164,8 +164,12 @@ export default {
       this.$refs.loginForm.validate(valid => {
         const b = true;
         if (b) { // TODO: 测试协议
+            // if (b) {
+            //   this.$store.commit('user/SET_INTRODUCTION', "wolegequ 222")
+            //   return
+            // }
             console.log("--- handleLogin");
-           this.$store.dispatch('user/mytestpb', this.loginForm)
+            this.$store.dispatch('user/mytestpb', this.loginForm)
             .then(() => {
               this.loading = false
             })

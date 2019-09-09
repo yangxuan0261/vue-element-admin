@@ -37,8 +37,9 @@ export function testpb() {
         offset: 2
     }
 
-    getStudentList(req).then((res) => {
+    return getStudentList(req).then((res) => {
         console.log("--- res:", res)
+        return res
       }).catch((res) => {
         console.error(res)
       })

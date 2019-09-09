@@ -37,12 +37,12 @@ module.exports = {
     'camelcase': [0, {
       'properties': 'always'
     }],
-    'comma-dangle': [2, 'never'],
-    'comma-spacing': [2, {
+    'comma-dangle': [0, 'never'],
+    'comma-spacing': [0, {
       'before': false,
       'after': true
     }],
-    'comma-style': [2, 'last'],
+    'comma-style': [0, 'last'],
     'constructor-super': 2,
     'curly': [2, 'multi-line'],
     'dot-location': [2, 'property'],
@@ -108,7 +108,7 @@ module.exports = {
     'no-multi-spaces': 2,
     'no-multi-str': 2,
     'no-multiple-empty-lines': [2, {
-      'max': 1
+      'max': 9999
     }],
     'no-native-reassign': 2,
     'no-negated-in-lhs': 2,

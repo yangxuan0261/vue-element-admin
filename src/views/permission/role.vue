@@ -105,6 +105,7 @@ export default {
     async getRoles() {
       const res = await getRoles()
       this.rolesList = res.data
+      console.log("--- getRoles:", res.data);
     },
 
     // Reshape the routes structure so that it looks the same as the sidebar
@@ -157,6 +158,14 @@ export default {
       this.dialogVisible = true
     },
     handleEdit(scope) {
+      const b = true
+      if (b) {
+        console.log("--- handleEdit");
+        this.rolesList[0].name = "admin 666"
+        this.$store.commit('user/SET_NAME', "admin 777")
+        return
+      }
+
       this.dialogType = 'edit'
       this.dialogVisible = true
       this.checkStrictly = true

@@ -1,6 +1,9 @@
 import { login, logout, getInfo, testpb } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
+import store from '@/store'
+
+console.log("-- init user.js")
 
 const state = {
     token: getToken(),
@@ -15,6 +18,7 @@ const mutations = {
         state.token = token
     },
     SET_INTRODUCTION: (state, introduction) => {
+        console.log("--- user mutations SET_INTRODUCTION:", introduction);
         state.introduction = introduction
     },
     SET_NAME: (state, name) => {
@@ -45,14 +49,31 @@ const actions = {
         })
     },
 
-    mytestpb(userInfo) {
-        console.log("--- mytestpb")
+    mytestpb({ commit }, userInfo) {
+        console.log("--- mytestpb, commit:", commit)
+        console.log("--- mytestpb, userInfo:", userInfo)
+
+        var testObj = JSON.parse(`{"age":999,"name":"hello","isMale":true}`);
+        console.log("--- testObj:", testObj)
+
+        var testObj2 = {
+            wole: "hello",
+            gequ: 123,
+            cao: true
+        }
+        console.log("--- testObj2:", JSON.stringify(testObj2))
+
         return new Promise((resolve, reject) => {
+            store.dispatch('settings/testSetting', "hello")
+            .then((data) => {
+                console.log("--- try call settings/testSetting, ret data:", data);
+            })
+
             testpb().then(response => {
                 const { data } = response
-                // commit('SET_TOKEN', data.token)
+                console.log("--- testpb response:", response)
+                commit('SET_INTRODUCTION', "wolegequ")
                 // setToken(data.token)
-                console.log("--- testpb response:", data)
                 resolve()
             }).catch(error => {
                 reject(error)

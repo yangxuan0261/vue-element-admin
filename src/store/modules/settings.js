@@ -22,6 +22,13 @@ const mutations = {
 const actions = {
   changeSetting({ commit }, data) {
     commit('CHANGE_SETTING', data)
+  },
+
+  testSetting({ commit }, data) {
+    console.log("--- testSetting, recv data:", data)
+    return new Promise((resolve, reject) => {
+      resolve("world")
+    })
   }
 }
 
