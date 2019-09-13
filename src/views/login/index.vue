@@ -76,6 +76,8 @@
 <script>
 import { validUsername } from '@/utils/validate'
 import SocialSign from './components/SocialSignin'
+import { Message } from 'element-ui';
+import { Notification } from 'element-ui';
 
 export default {
   name: 'Login',
@@ -116,6 +118,7 @@ export default {
     $route: {
       handler: function(route) {
         const query = route.query
+        console.log('--- login watch:', query)
         if (query) {
           this.redirect = query.redirect
           this.otherQuery = this.getOtherQuery(query)
@@ -128,6 +131,7 @@ export default {
     // window.addEventListener('storage', this.afterQRScan)
   },
   mounted() {
+    console.log('--- login mounted')
     if (this.loginForm.username === '') {
       this.$refs.username.focus()
     } else if (this.loginForm.password === '') {
@@ -161,28 +165,33 @@ export default {
       })
     },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        const b = true;
-        if (b) { // TODO: 测试协议
+          const b = false;
+          if (b) { // TODO: 测试协议
+            this.$router.push({ path: '/login' , query: { arg1: 'hello', arg2: 'world' }})
+
             // if (b) {
             //   this.$store.commit('user/SET_INTRODUCTION', "wolegequ 222")
             //   return
             // }
-            console.log("--- handleLogin");
-            this.$store.dispatch('user/mytestpb', this.loginForm)
-            .then(() => {
-              this.loading = false
-            })
-            .catch(() => {
-              this.loading = false
-            })
+            // console.log("--- handleLogin");
+            // this.$store.dispatch('user/mytestpb', this.loginForm)
+            // .then(() => {
+            //   this.loading = false
+            // })
+            // .catch(() => {
+            //   this.loading = false
+            // })
+            // Message.error('--- error')
+            // Notification.error('--- ersd')
           return;
         }
 
+      this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm)
             .then(() => {
+              console.log('--- login success, this.redirect:', this.redirect)
               this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
               this.loading = false
             })
@@ -196,12 +205,14 @@ export default {
       })
     },
     getOtherQuery(query) {
-      return Object.keys(query).reduce((acc, cur) => {
+      const res = Object.keys(query).reduce((acc, cur) => {
         if (cur !== 'redirect') {
           acc[cur] = query[cur]
         }
         return acc
       }, {})
+      console.log('--- getOtherQuery, res:', res)
+      return res
     }
     // afterQRScan() {
     //   if (e.key === 'x-admin-oauth-code') {

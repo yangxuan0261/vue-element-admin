@@ -33,7 +33,7 @@ export default [
     url: '/transaction/list',
     type: 'get',
     response: _ => {
-      return {
+      const ret = {
         code: 20000,
         data: {
           total: 20,
@@ -46,6 +46,7 @@ export default [
           }]
         }
       }
+      return ret
     }
   }
 ]

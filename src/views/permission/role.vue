@@ -158,7 +158,7 @@ export default {
       this.dialogVisible = true
     },
     handleEdit(scope) {
-      const b = true
+      const b = false
       if (b) {
         console.log("--- handleEdit");
         this.rolesList[0].name = "admin 666"
@@ -212,6 +212,8 @@ export default {
     },
     async confirmRole() {
       const isEdit = this.dialogType === 'edit'
+
+      console.log('--- role:', this.role)
 
       const checkedKeys = this.$refs.tree.getCheckedKeys()
       this.role.routes = this.generateTree(deepClone(this.serviceRoutes), '/', checkedKeys)

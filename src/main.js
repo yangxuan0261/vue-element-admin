@@ -43,6 +43,10 @@ Object.keys(filters).forEach(key => {
 
 Vue.config.productionTip = false
 
+Vue.prototype.changeData = function() { // changeData是函数名
+  console.log('--- .changeData')
+}
+
 new Vue({
   el: '#app',
   router,
