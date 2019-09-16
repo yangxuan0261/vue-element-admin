@@ -56,6 +56,12 @@
         <el-button type="primary" @click="confirmRole">Confirm</el-button>
       </div>
     </el-dialog>
+    <!-- 静态组件, 一定义就会被 created, 不宜使用 -->
+    <my-component :arg1="123" :dialog-status.sync="isShow" :arg3="'hello'" @on-my-notify="onMyNotify666" @on-close="onDialogClose" />
+    <!-- 动态组件 -->
+    <keep-alive>
+    <!-- <component :is="currentTabComponent" :arg1="123" :is-show.sync="isShow" :arg3="'hello'" @on-my-notify="onMyNotify666" /> -->
+    </keep-alive>
   </div>
 </template>
 
@@ -63,6 +69,8 @@
 import path from 'path'
 import { deepClone } from '@/utils'
 import { getRoutes, getRoles, addRole, deleteRole, updateRole } from '@/api/role'
+import MyComponent from './components/MyComponent'
+import utils from '../../utils/utils'
 
 const defaultRole = {
   key: '',
@@ -72,8 +80,11 @@ const defaultRole = {
 }
 
 export default {
+  components: { MyComponent },
   data() {
     return {
+      isShow: false,
+      currentTabComponent: undefined,
       role: Object.assign({}, defaultRole),
       routes: [],
       rolesList: [],
@@ -97,6 +108,30 @@ export default {
     this.getRoles()
   },
   methods: {
+    onMyNotify666(data) {
+      console.log('--- onMyNotify666, data:', data)
+    },
+    onDialogClose() {
+      this.isShow = false
+    },
+    async handleAddRole() {
+      const b = true
+      if (b) {
+        console.log('--- this.isShow = true')
+        this.isShow = true
+        // await utils.wait(2)
+        // this.isShow = false
+        // this.currentTabComponent = MyComponent
+        return
+      }
+
+      this.role = Object.assign({}, defaultRole)
+      if (this.$refs.tree) {
+        this.$refs.tree.setCheckedNodes([])
+      }
+      this.dialogType = 'new'
+      this.dialogVisible = true
+    },
     async getRoutes() {
       const res = await getRoutes()
       this.serviceRoutes = res.data
@@ -148,14 +183,6 @@ export default {
         }
       })
       return data
-    },
-    handleAddRole() {
-      this.role = Object.assign({}, defaultRole)
-      if (this.$refs.tree) {
-        this.$refs.tree.setCheckedNodes([])
-      }
-      this.dialogType = 'new'
-      this.dialogVisible = true
     },
     handleEdit(scope) {
       const b = false
