@@ -20,8 +20,8 @@
       </el-table-column>
       <el-table-column align="center" label="Operations">
         <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="handleEdit(scope)">Edit</el-button>
-          <el-button type="danger" size="small" @click="handleDelete(scope)">Delete</el-button>
+          <el-button type="primary" size="small" @click="testAsync(scope)">Edit</el-button>
+          <el-button type="danger" size="small" @click="testDynamic(scope)">Delete</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -57,11 +57,11 @@
       </div>
     </el-dialog>
     <!-- 静态组件, 一定义就会被 created, 不宜使用 -->
-    <my-component :arg1="123" :dialog-status.sync="isShow" :arg3="'hello'" @on-my-notify="onMyNotify666" @on-close="onDialogClose" />
+    <!-- <my-component :arg1="123" :dialog-status.sync="isShow" :arg3="'hello'" @on-my-notify="onMyNotify666" @on-close="onDialogClose" /> -->
     <!-- 动态组件 -->
-    <keep-alive>
-    <!-- <component :is="currentTabComponent" :arg1="123" :is-show.sync="isShow" :arg3="'hello'" @on-my-notify="onMyNotify666" /> -->
-    </keep-alive>
+    <!-- <keep-alive> -->
+    <component :is="dynamicComponent" :arg1="123" :dialog-status.sync="isShow" :arg3="'hello'" @on-my-notify="onMyNotify666" @on-close="onDialogClose" />
+    <!-- </keep-alive> -->
   </div>
 </template>
 
@@ -69,8 +69,9 @@
 import path from 'path'
 import { deepClone } from '@/utils'
 import { getRoutes, getRoles, addRole, deleteRole, updateRole } from '@/api/role'
-import MyComponent from './components/MyComponent'
+// import MyComponent from './components/MyComponent'
 import utils from '../../utils/utils'
+import { async } from 'q'
 
 const defaultRole = {
   key: '',
@@ -80,11 +81,11 @@ const defaultRole = {
 }
 
 export default {
-  components: { MyComponent },
+  // components: { MyComponent },
   data() {
     return {
       isShow: false,
-      currentTabComponent: undefined,
+      dynamicComponent: undefined,
       role: Object.assign({}, defaultRole),
       routes: [],
       rolesList: [],
@@ -112,16 +113,39 @@ export default {
       console.log('--- onMyNotify666, data:', data)
     },
     onDialogClose() {
+      console.log('--- onDialogClose')
       this.isShow = false
+      this.dynamicComponent = undefined
     },
-    async handleAddRole() {
+
+    testAsync() {
+      console.log('--- testAsync')
+      this.dynamicComponent = () => import('./components/MyComponent')
+      this.dynamicComponent().then(async(mycomp) => {
+        console.log('--- load over 111', mycomp)
+        this.$nextTick(() => {
+          this.$nextTick(() => {
+            console.log('--- load over 222', mycomp)
+            this.isShow = true
+          })
+        })
+      })
+    },
+
+    testDynamic() {
+      console.log('--- testDynamic')
+      // this.dynamicComponent = MyComponent
+      this.$nextTick(() => {
+        this.isShow = true
+      })
+    },
+    handleAddRole() {
       const b = true
       if (b) {
         console.log('--- this.isShow = true')
         this.isShow = true
         // await utils.wait(2)
         // this.isShow = false
-        // this.currentTabComponent = MyComponent
         return
       }
 
