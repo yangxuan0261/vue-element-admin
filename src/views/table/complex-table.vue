@@ -74,7 +74,7 @@
       </el-table-column>
       <el-table-column label="Status" class-name="status-col" width="100">
         <template slot-scope="{row}">
-          <el-tag :type="row.status | statusFilter">
+          <el-tag :type="row.status | statusFilter"> <!-- 把 row.status 传入 statusFilter 方法获取一个返回值 -->
             {{ row.status }}
           </el-tag>
         </template>
@@ -231,6 +231,7 @@ export default {
   },
   methods: {
     getList() {
+      console.log('--- getList 111, this.listQuery:', this.listQuery)
       this.listLoading = true
       fetchList(this.listQuery).then(response => {
         this.list = response.data.items
